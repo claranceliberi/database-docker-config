@@ -28,10 +28,10 @@ services:
         image: postgres # use latest official postgres version
         container_name: pg-docker
         ports:
-            - "5400:5432"
+            - "5432:5432"
         expose:
             # Opens port 3306 on the container
-            - '3306'
+            - '5432'
         env_file: # using env file instead of env variables
             - database.env 
         # environment:
