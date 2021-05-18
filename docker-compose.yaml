@@ -2,7 +2,7 @@ version: '3.3'
 services:
     mysql:
         image: mysql
-        restart: always
+        container_name: mysql
         env_file: # using env file instead of env variables
             - database.env 
         # environment:
@@ -26,7 +26,7 @@ services:
 
     postgresql:
         image: postgres # use latest official postgres version
-        container_name: pg-docker
+        container_name: postgress
         ports:
             - "5432:5432"
         expose:
