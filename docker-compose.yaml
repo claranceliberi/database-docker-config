@@ -3,16 +3,17 @@ services:
     mysql:
         image: mysql
         container_name: mysql
-        env_file: # using env file instead of env variables
-            - database.env 
-        # environment:
-        #     MYSQL_DATABASE: 'db'
-        #     # So you don't have to use root, but you can if you like
-        #     MYSQL_USER: 'liberi'
-        #     # You can use whatever password you like
-        #     MYSQL_PASSWORD: 'liberi'
-        #     # Password for root access
-        #     MYSQL_ROOT_PASSWORD: 'liberi'
+        # env_file: # using env file instead of env variables
+        #     - database.env 
+        environment:
+            MYSQL_DATABASE: 'learndb'
+            # So you don't have to use root, but you can if you like
+            MYSQL_USER: 'liberi'
+            # You can use whatever password you like
+            MYSQL_PASSWORD: 'liberi'
+            # Password for root access
+            MYSQL_ROOT_PASSWORD: 'liberi'
+            MYSQL_ROOT_HOST: '%'
         ports:
             # <Port exposed> : < MySQL Port running inside container>
             - '3306:3306'
@@ -32,15 +33,14 @@ services:
         expose:
             # Opens port 3306 on the container
             - '5432'
-        env_file: # using env file instead of env variables
-            - database.env 
-        # environment:
-        #     - POSTGRES_USER=liberi
-        #     - POSTGRES_PASSWORD=liberi
+        # env_file: # using env file instead of env variables
+        #     - database.env 
+        environment:
+            - POSTGRES_USER=liberi
+            - POSTGRES_PASSWORD=liberi
+            - POSTGRES_DB=learndb
         volumes:
-            - ./postgres.conf:/etc/postgresql/postgresql.conf
             - pg-db-data:/var/lib/postgresql/data/
-        command: postgres -c config_file=/etc/postgresql/postgresql.conf
         restart: always
 # Names our volume
 volumes:
