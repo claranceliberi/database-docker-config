@@ -42,7 +42,17 @@ services:
         volumes:
             - pg-db-data:/var/lib/postgresql/data/
         restart: always
+    mongodb:
+        image: mongo:latest
+        environment:
+        MONGO_INITDB_ROOT_USERNAME: root
+        MONGO_INITDB_ROOT_PASSWORD: rootpassword
+        ports:
+        - 27017:27017
+        volumes:
+        - mongodb_data_container:/data/db
 # Names our volume
 volumes:
     my-db-data:
+    mongodb_data_container:
     pg-db-data: # named volumes can be managed easier using docker-compose
