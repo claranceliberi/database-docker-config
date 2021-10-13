@@ -44,13 +44,17 @@ services:
         restart: always
     mongodb:
         image: mongo:latest
+        container_name: mongo_db
         environment:
-        MONGO_INITDB_ROOT_USERNAME: root
-        MONGO_INITDB_ROOT_PASSWORD: rootpassword
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: root@123
         ports:
-        - 27017:27017
+            - 27017:27017
+        expose:
+            - '27017'
         volumes:
-        - mongodb_data_container:/data/db
+            - mongodb_data_container:/data/db
+        restart: always
 # Names our volume
 volumes:
     my-db-data:
