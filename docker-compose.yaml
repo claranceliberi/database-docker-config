@@ -47,7 +47,7 @@ services:
         container_name: mongo_db
         environment:
             MONGO_INITDB_ROOT_USERNAME: root
-            MONGO_INITDB_ROOT_PASSWORD: root@123
+            MONGO_INITDB_ROOT_PASSWORD: root123
         ports:
             - 27017:27017
         expose:
