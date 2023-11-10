@@ -74,7 +74,8 @@ services:
                 hard: 262144
         ports:
         - "8123:8123" # HTTP interface
-        - "9004:9004" # Native client (postgresSQL)
+        - "9000:9000" # Native client
+        - "9005:9005" # PostgresSQL client
         volumes:
         - clickhouse_data:/var/lib/clickhouse
         - clickhouse_logs:/var/log/clickhouse-server
