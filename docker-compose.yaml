@@ -23,7 +23,7 @@ services:
         # Where our data will be persisted
         volumes:
             - my-db-data:/var/lib/mysql
-        restart: always
+        # restart: always
 
     postgresql:
         image: postgres # use latest official postgres version
@@ -41,7 +41,18 @@ services:
             - POSTGRES_DB=learndb
         volumes:
             - pg-db-data:/var/lib/postgresql/data/
-        restart: always
+        # restart: always
+    pgadmin:
+        image: dpage/pgadmin4 # use latest official postgres version
+        container_name: pgadmin_container
+        ports:
+            - "2345:80"
+        environment:
+            PGADMIN_DEFAULT_EMAIL: admin@admin.com
+            PGADMIN_DEFAULT_PASSWORD: root
+        expose:
+            # Opens port 3306 on the container
+            - '2345'
     mongodb:
         image: mongo:latest
         container_name: mongo_db
@@ -54,9 +65,33 @@ services:
             - '27017'
         volumes:
             - mongodb_data_container:/data/db
-        restart: always
+        # restart: always
+    clickhouse:
+        image: clickhouse/clickhouse-server
+        ulimits:
+            nofile:
+                soft: 262144
+                hard: 262144
+        ports:
+        - "8123:8123" # HTTP interface
+        - "9000:9000" # Native client
+        volumes:
+        - clickhouse_data:/var/lib/clickhouse
+        - clickhouse_logs:/var/log/clickhouse-server
+        # - ./config.xml:/etc/clickhouse-server/config.xml
+        environment:
+            CLICKHOUSE_DB: db
+            CLICKHOUSE_USER: liberi
+            CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: "1"
+            CLICKHOUSE_PASSWORD: liberi
+        cap_add:
+        - SYS_NICE
+        - NET_ADMIN
+        - IPC_LOCK
 # Names our volume
 volumes:
     my-db-data:
     mongodb_data_container:
     pg-db-data: # named volumes can be managed easier using docker-compose
+    clickhouse_data:
+    clickhouse_logs:
