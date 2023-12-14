@@ -28,6 +28,8 @@ services:
   postgresql:
     image: postgres # use latest official postgres version
     container_name: postgress
+    # networks:
+    #   - pg_clickhouse
     ports:
       - '5432:5432'
     expose:
@@ -41,7 +43,7 @@ services:
       - POSTGRES_DB=learndb
     volumes:
       - pg-db-data:/var/lib/postgresql/data/
-    # restart: always
+    restart: always
   pgadmin:
     image: dpage/pgadmin4 # use latest official postgres version
     container_name: pgadmin_container
@@ -50,9 +52,6 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: root
-    expose:
-      # Opens port 3306 on the container
-      - '2345'
   mongodb:
     image: mongo:latest
     container_name: mongo_db
@@ -69,6 +68,8 @@ services:
   clickhouse:
     image: clickhouse/clickhouse-server
     container_name: ch_db
+    networks:
+      - pg_clickhouse
     ulimits:
       nofile:
         soft: 262144
@@ -90,6 +91,8 @@ services:
       - SYS_NICE
       - NET_ADMIN
       - IPC_LOCK
+    extra_hosts:
+    - "host.docker.internal:host-gateway"
     deploy:
       resources:
         limits:
@@ -105,3 +108,7 @@ volumes:
   pg-db-data: # named volumes can be managed easier using docker-compose
   clickhouse_data:
   clickhouse_logs:
+
+networks:
+  pg_clickhouse:
+    driver: bridge
