@@ -26,7 +26,7 @@ services:
     # restart: always
 
   postgresql:
-    image: postgres # use latest official postgres version
+    image: postgres:latest # use latest official postgres version
     container_name: postgress
     # networks:
     #   - pg_clickhouse
@@ -44,6 +44,8 @@ services:
     volumes:
       - pg-db-data:/var/lib/postgresql/data/
     restart: always
+    networks:
+      - pg_clickhouse
   pgadmin:
     image: dpage/pgadmin4 # use latest official postgres version
     container_name: pgadmin_container
@@ -66,7 +68,7 @@ services:
       - mongodb_data_container:/data/db
     # restart: always
   clickhouse:
-    image: clickhouse/clickhouse-server
+    image: clickhouse/clickhouse-server:latest
     container_name: ch_db
     networks:
       - pg_clickhouse
@@ -101,6 +103,7 @@ services:
         reservations:
           cpus: '3.0'
           memory: 5G
+    restart: always
 # Names our volume
 volumes:
   my-db-data:
